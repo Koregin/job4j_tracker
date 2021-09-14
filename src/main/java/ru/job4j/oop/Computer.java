@@ -12,6 +12,11 @@ public class Computer {
         this.cpu = cpu;
     }
 
+    public Computer(int ssd, String cpu) {
+        this.ssd = ssd;
+        this.cpu = cpu;
+    }
+
     public Computer() {
     }
 
@@ -24,9 +29,11 @@ public class Computer {
     public static void main(String[] args) {
         Computer computer = new Computer(true, 500, "Intel Core I7-10700K");
         computer.printInfo();
+        System.out.println();
         Computer comp = new Computer(true, 256, "AMD Ryzen 5 3600");
         comp.printInfo();
-        Computer lenovo = new Computer();
-        lenovo.printInfo();
+        System.out.println();
+        Computer third = new Computer(256, "AMD Ryzen 5 3600");
+        third.printInfo();
     }
 }
