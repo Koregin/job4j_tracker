@@ -11,22 +11,19 @@ public class Library {
         books[1] = book2;
         books[2] = book3;
         books[3] = book4;
-        for (int index = 0; index < books.length; index++) {
-            Book bk = books[index];
-            System.out.println(bk.getName() + ", страниц - " + bk.getPages());
+        for (Book book : books) {
+            System.out.println(book.getName() + ", страниц - " + book.getPages());
         }
         Book temp = new Book("", 0);
         temp = books[0];
         books[0] = books[3];
         books[3] = temp;
-        for (int index = 0; index < books.length; index++) {
-            Book bk = books[index];
-            System.out.println(bk.getName() + ", страниц - " + bk.getPages());
+        for (Book book: books) {
+            System.out.println(book.getName() + ", страниц - " + book.getPages());
         }
-        for (int index = 0; index < books.length; index++) {
-            Book bk = books[index];
-            if (bk.getName().equals("Clean code")) {
-                System.out.println(bk.getName() + ", страниц - " + bk.getPages());
+        for (Book book : books) {
+            if ("Clean code".equals(book.getName())) {
+                System.out.println(book.getName() + ", страниц - " + book.getPages());
             }
         }
     }
