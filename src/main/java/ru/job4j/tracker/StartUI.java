@@ -22,10 +22,10 @@ public class StartUI {
         }
     }
 
-    public static void editItem(Input input, Tracker tracker) {
-        System.out.println("=== Edit item ===");
+    public static void replaceItem(Input input, Tracker tracker) {
+        System.out.println("=== Update item ===");
         int id = input.askInt("Enter id: ");
-        String name = input.askStr("Enter name: ");
+        String name = input.askStr("Enter a new name of item: ");
         Item item = new Item(name);
         if (tracker.replace(id, item)) {
             System.out.println("Заявка изменена успешно.");
@@ -78,7 +78,7 @@ public class StartUI {
             } else if (select == 1) {
                 StartUI.showAllItems(tracker);
             } else if (select == 2) {
-                StartUI.editItem(input, tracker);
+                StartUI.replaceItem(input, tracker);
             } else if (select == 3) {
                 StartUI.deleteItem(input, tracker);
             } else if (select == 4) {
