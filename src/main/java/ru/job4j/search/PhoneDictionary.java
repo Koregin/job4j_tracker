@@ -1,8 +1,5 @@
 package ru.job4j.search;
 
-import org.w3c.dom.ls.LSOutput;
-
-import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import java.util.ArrayList;
 
 public class PhoneDictionary {
