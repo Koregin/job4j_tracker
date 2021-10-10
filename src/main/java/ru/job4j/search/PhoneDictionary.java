@@ -1,5 +1,7 @@
 package ru.job4j.search;
 
+import org.w3c.dom.ls.LSOutput;
+
 import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import java.util.ArrayList;
 
@@ -13,21 +15,11 @@ public class PhoneDictionary {
     public ArrayList<Person> find(String key) {
         ArrayList<Person> result = new ArrayList<>();
         for (Person person : persons) {
-            if (person.getName().contains(key)) {
+            if (person.getName().contains(key)
+                    || person.getSurname().contains(key)
+                    || person.getPhone().contains(key)
+                    || person.getAddress().contains(key)) {
                 result.add(person);
-                break;
-            }
-            if (person.getSurname().contains(key)) {
-                result.add(person);
-                break;
-            }
-            if (person.getPhone().contains(key)) {
-                result.add(person);
-                break;
-            }
-            if (person.getAddress().contains(key)) {
-                result.add(person);
-                break;
             }
         }
         return result;
