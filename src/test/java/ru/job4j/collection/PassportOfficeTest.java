@@ -22,6 +22,6 @@ public class PassportOfficeTest {
         PassportOffice office = new PassportOffice();
         office.add(citizen);
         boolean expected = office.add(citizen2);
-        assertThat(expected, is(false));
+        assertFalse(expected);
     }
 }
