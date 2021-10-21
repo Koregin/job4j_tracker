@@ -1,10 +1,11 @@
 package ru.job4j.tracker;
 
-import org.junit.Assert;
 import org.junit.Test;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class ItemTest {
 
@@ -25,7 +26,7 @@ public class ItemTest {
                 new Item(5, "test5")
         );
         Collections.sort(notSortedItems);
-        Assert.assertEquals(notSortedItems, sortedItems);
+        assertEquals(notSortedItems, sortedItems);
     }
 
     @Test
@@ -45,6 +46,6 @@ public class ItemTest {
                 new Item(1, "test1")
         );
         Collections.sort(notSortedItems, new SortByIdItemReverse());
-        Assert.assertEquals(notSortedItems, sortedItems);
+        assertEquals(notSortedItems, sortedItems);
     }
 }
