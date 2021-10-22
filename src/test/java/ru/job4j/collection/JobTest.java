@@ -52,8 +52,8 @@ public class JobTest {
         Comparator<Job> cmpName = new JobDescByPriority().thenComparing(new JobDescByName());
         int rsl = cmpName.compare(
                 new Job("A", 2),
-                new Job("B", 1)
+                new Job("B", 2)
         );
-        assertThat(rsl, lessThan(0));
+        assertThat(rsl, greaterThan(0));
     }
 }
