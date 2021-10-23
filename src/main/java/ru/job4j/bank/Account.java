@@ -2,7 +2,15 @@ package ru.job4j.bank;
 
 import java.util.Objects;
 
+/**
+ * Класс описывающий структуру счета клиента
+ * @author EVGENY KOREGIN
+ * @version 1.0
+ */
 public class Account {
+    /**
+     * Реквизиты и баланс лицевого счета
+     */
     private String requisite;
     private double balance;
 
