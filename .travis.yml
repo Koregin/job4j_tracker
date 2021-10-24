@@ -18,3 +18,7 @@ notifications:
       - mnemonic78@yandex.ru
     on_success: never # default: change
     on_failure: always # default: always
+
+env:
+  global:
+    CODECOV_TOKEN='f722c522-9cb3-47e8-8e7a-15b2154dcb9c'
