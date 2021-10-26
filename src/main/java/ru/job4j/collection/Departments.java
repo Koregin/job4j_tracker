@@ -1,5 +1,7 @@
 package ru.job4j.collection;
 
+import com.sun.source.tree.BreakTree;
+
 import java.util.*;
 
 public class Departments {
@@ -17,18 +19,21 @@ public class Departments {
     }
 
     public static void sortAsc(List<String> orgs) {
-
+        Collections.sort(orgs);
     }
 
     public static void sortDesc(List<String> orgs) {
-
-    }
-
-    public static void main(String[] args) {
-        List<String> list = Arrays.asList("K1", "K1/SK1/SSK1");
-        List<String> result = Departments.fillGaps(list);
-        for (String el : result) {
-            System.out.println(el);
-        }
+        Comparator<String> comparator = new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                List<String> tmp1 = Arrays.asList(o1.split("/"));
+                List<String> tmp2 = Arrays.asList(o2.split("/"));
+                if (tmp1.get(0).equals(tmp2.get(0))) {
+                    return o1.compareTo(o2);
+                }
+                return new DepDescComp().compare(o1, o2);
+            }
+        };
+        Collections.sort(orgs, comparator);
     }
 }
