@@ -16,7 +16,8 @@ public class FI {
         Comparator<String> cmpText = (left, right) -> left.compareTo(right);
         Arrays.sort(strings, cmpText);
         System.out.println("After sort: " + Arrays.toString(strings));
-        Comparator<String> cmpDescSize = (left, right) -> left.length() - right.length();
+        Comparator<String> cmpDescSize = (left, right) ->
+                Integer.compare(right.length(), left.length());
         Arrays.sort(strings, cmpDescSize);
         System.out.println("After sort by length: " + Arrays.toString(strings));
     }
