@@ -3,6 +3,7 @@ package ru.job4j.lambda;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +14,7 @@ public class OptionalOfAndEmptyTest {
         Assert.assertEquals(
                 Optional.of("c"),
                 OptionalOfAndEmpty.findValue(
-                        List.of("a", "b", "c"),
+                        Arrays.asList("a", "b", "c"),
                         "c"
                 )
         );
@@ -24,7 +25,7 @@ public class OptionalOfAndEmptyTest {
         Assert.assertEquals(
                 Optional.empty(),
                 OptionalOfAndEmpty.findValue(
-                        List.of("a", "b", "c"),
+                        Arrays.asList("a", "b", "c"),
                         "d"
                 )
         );
