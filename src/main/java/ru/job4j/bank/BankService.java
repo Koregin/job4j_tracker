@@ -50,14 +50,11 @@ public class BankService {
      * @return возвращает найденного клиента или null если не клиент не найден
      */
     public User findByPassport(String passport) {
-        User findUser = null;
-        for (User user : users.keySet()) {
-            if (user.getPassport().equals(passport)) {
-                findUser = user;
-                break;
-            }
-        }
-        return findUser;
+        return users.keySet()
+                .stream()
+                .filter(u -> u.getPassport().equals(passport))
+                .findFirst()
+                .orElse(null);
     }
 
     /**
@@ -68,16 +65,14 @@ public class BankService {
      */
     public Account findByRequisite(String passport, String requisite) {
         User user = findByPassport(passport);
-        Account findAccount = null;
         if (user != null) {
-            for (Account account : users.get(user)) {
-                if (account.getRequisite().equals(requisite)) {
-                    findAccount = account;
-                    break;
-                }
-            }
+            return users.get(user)
+                    .stream()
+                    .filter(a -> a.getRequisite().equals(requisite))
+                    .findFirst()
+                    .orElse(null);
         }
-        return findAccount;
+        return null;
     }
 
     /**
@@ -87,15 +82,17 @@ public class BankService {
      * @param destPassport номер паспорта клиента кому начисляются средства
      * @param destRequisite реквизиты счета назначения
      * @param amount сумма перевода
-     * @return возвращает true если средства были успешно перечислены и false в случае если
-     * недостаточно средств для перевода.
+     * @return возвращает true если средства были успешно перечислены и
+     * false в случае если недостаточно средств для перевода.
      */
     public boolean transferMoney(String srcPassport, String srcRequisite,
-                                 String destPassport, String destRequisite, double amount) {
+                                 String destPassport, String destRequisite,
+                                 double amount) {
         boolean rsl = false;
         Account srcAccount = findByRequisite(srcPassport, srcRequisite);
         Account dstAccount = findByRequisite(destPassport, destRequisite);
-        if (srcAccount != null && dstAccount != null && srcAccount.getBalance() >= amount) {
+        if (srcAccount != null && dstAccount != null
+                && srcAccount.getBalance() >= amount) {
                 dstAccount.setBalance(dstAccount.getBalance() + amount);
                 srcAccount.setBalance(srcAccount.getBalance() - amount);
                 rsl = true;
