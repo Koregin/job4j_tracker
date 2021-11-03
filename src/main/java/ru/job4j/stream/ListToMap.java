@@ -8,11 +8,11 @@ public class ListToMap {
 
     public static Map<String, Student> listtomap(List<Student> students) {
         return students.stream()
-                .distinct()
                 .collect(
-                Collectors.toMap(
-                        Student::getSurname,
-                        e -> e
-                ));
+                        Collectors.toMap(
+                                Student::getSurname,
+                                e -> e,
+                                (e1, e2) -> e1
+                        ));
     }
 }
