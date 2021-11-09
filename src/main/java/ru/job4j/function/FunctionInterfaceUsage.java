@@ -28,10 +28,13 @@ public class FunctionInterfaceUsage {
         System.out.println("String is empty: " + pred.test("test"));
 
         UnaryOperator<StringBuilder> builder = b -> b.reverse();
-        System.out.println("Строка после реверса: " + builder.apply(new StringBuilder("String for test")));
-        System.out.println("Строка после реверса: " + builder.apply(new StringBuilder("tset rof gnirtS")));
+        System.out.println("Строка после реверса: "
+                + builder.apply(new StringBuilder("String for test")));
+        System.out.println("Строка после реверса: "
+                + builder.apply(new StringBuilder("tset rof gnirtS")));
 
-        BinaryOperator<StringBuilder> builder2 = (b1, b2) -> b1.append(" ").append(b2);
+        BinaryOperator<StringBuilder> builder2 = (b1, b2) -> b1.append(" ")
+                                                                .append(b2);
         System.out.println(
                 "Строка после объединения: " + builder2.apply(
                         new StringBuilder("First string"),

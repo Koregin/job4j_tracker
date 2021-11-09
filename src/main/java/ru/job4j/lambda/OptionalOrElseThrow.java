@@ -26,7 +26,7 @@ public class OptionalOrElseThrow {
     private static Optional<User> search(List<User> list, String login) {
         Optional<User> user = Optional.empty();
         for (User iteruser : list) {
-            if(iteruser.getLogin().equals(login)) {
+            if (iteruser.getLogin().equals(login)) {
                 user = Optional.of(iteruser);
             }
         }
