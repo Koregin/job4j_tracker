@@ -1,9 +1,7 @@
 package ru.job4j.stream;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -44,9 +42,8 @@ public class Analyze {
     public static List<Tuple> averageScoreByPupil(Stream<Pupil> stream) {
         Map<String, Double> subjAvgScore = stream.flatMap(pupil -> pupil.getSubjects().stream())
                 .collect(Collectors.groupingBy(Subject::getName,
-                        Collectors.averagingDouble(Subject::getScore)));
+                        LinkedHashMap::new, Collectors.averagingDouble(Subject::getScore)));
         return subjAvgScore.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
                 .map(subj -> new Tuple(subj.getKey(), subj.getValue()))
                 .collect(Collectors.toList());
     }
@@ -79,7 +76,6 @@ public class Analyze {
                 .collect(Collectors.groupingBy(Subject::getName,
                         Collectors.summingDouble(Subject::getScore)));
         return subjAvgScore.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
                 .map(subj -> new Tuple(subj.getKey(), subj.getValue()))
                 .max(Comparator.comparingDouble(Tuple::getScore))
                 .orElse(null);
