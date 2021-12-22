@@ -44,6 +44,10 @@ public class Item implements Comparable<Item> {
         this.name = name;
     }
 
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
     @Override
     public String toString() {
         return "Item{"
