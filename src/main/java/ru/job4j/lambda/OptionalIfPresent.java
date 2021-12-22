@@ -5,7 +5,7 @@ import java.util.Optional;
 public class OptionalIfPresent {
 
     public static void ifPresent(int[] data) {
-
+        max(data).ifPresent(max -> System.out.println("Max: " + max));
     }
 
     private static Optional<Integer> max(int[] data) {
@@ -17,7 +17,7 @@ public class OptionalIfPresent {
                     max = num;
                 }
             }
-            optional.of(max);
+            optional = Optional.of(max);
         }
         return optional;
     }
