@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Properties;
 
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class SqlTrackerTest {
@@ -67,21 +68,17 @@ public class SqlTrackerTest {
         Item second = new Item("Second");
         tracker.add(first);
         tracker.add(second);
-        assertThat(tracker.findAll().get(1), is(second));
+        assertEquals(tracker.findAll(), List.of(first, second));
     }
 
     @Test
-    public void whenTestFindByNameCheckArrayLength() {
+    public void whenTestFindByNameCheckFirstItemName() {
         SqlTracker tracker = new SqlTracker(connection);
         Item first = new Item("First");
         Item second = new Item("Second");
         tracker.add(first);
         tracker.add(second);
-        tracker.add(new Item("First"));
-        tracker.add(new Item("Second"));
-        tracker.add(new Item("First"));
-        List<Item> result = tracker.findByName(first.getName());
-        assertThat(result.size(), is(3));
+        assertEquals(tracker.findByName(first.getName()), List.of(first));
     }
 
     @Test
@@ -91,11 +88,7 @@ public class SqlTrackerTest {
         Item second = new Item("Second");
         tracker.add(first);
         tracker.add(second);
-        tracker.add(new Item("First"));
-        tracker.add(new Item("Second"));
-        tracker.add(new Item("First"));
-        List<Item> result = tracker.findByName(second.getName());
-        assertThat(result.get(1).getName(), is(second.getName()));
+        assertEquals(tracker.findByName(second.getName()), List.of(second));
     }
 
     @Test
