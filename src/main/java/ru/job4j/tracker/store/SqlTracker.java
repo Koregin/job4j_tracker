@@ -1,4 +1,7 @@
-package ru.job4j.tracker;
+package ru.job4j.tracker.store;
+
+import ru.job4j.tracker.Item;
+import ru.job4j.tracker.Store;
 
 import java.io.InputStream;
 import java.sql.*;
@@ -7,6 +10,13 @@ import java.util.*;
 public class SqlTracker implements Store, AutoCloseable {
 
     private Connection cn;
+
+    public SqlTracker() {
+    }
+
+    public SqlTracker(Connection cn) {
+        this.cn = cn;
+    }
 
     public void init() {
         try (InputStream in = SqlTracker.class.getClassLoader()
