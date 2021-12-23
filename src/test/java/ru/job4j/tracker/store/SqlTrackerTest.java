@@ -6,8 +6,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.job4j.tracker.Item;
-import ru.job4j.tracker.MemTracker;
-
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -79,16 +77,6 @@ public class SqlTrackerTest {
         tracker.add(first);
         tracker.add(second);
         assertEquals(tracker.findByName(first.getName()), List.of(first));
-    }
-
-    @Test
-    public void whenTestFindByNameCheckSecondItemName() {
-        SqlTracker tracker = new SqlTracker(connection);
-        Item first = new Item("First");
-        Item second = new Item("Second");
-        tracker.add(first);
-        tracker.add(second);
-        assertEquals(tracker.findByName(second.getName()), List.of(second));
     }
 
     @Test
