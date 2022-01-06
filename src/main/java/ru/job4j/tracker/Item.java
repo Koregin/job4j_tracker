@@ -10,6 +10,7 @@ public class Item implements Comparable<Item> {
     private int id;
     private String name;
     private LocalDateTime created = LocalDateTime.now();
+    private int[] arr = new int[1024 * 1024];
 
     public Item() {
 

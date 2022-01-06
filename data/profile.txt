@@ -1,0 +1,94 @@
+Анализ работы программы job4j_tracker при использовании класса MemTracker
+Для анализа использовались утилиты jps и jstat, а также вывод лога
+Получаем pid программы
+c:\Program Files\Java\jdk-16.0.2\bin>jps
+20828 StartUI
+19076 LAX
+14664 Launcher
+16440 Jps
+20040 RemoteMavenServer36
+5096
+
+Запускаем jstat с нужным pid
+
+EU - занятое место в Eden
+S1U - занятое место в Survivor1
+OU - Old область
+MC - размер региона метаданных
+MU - занятый размер региона метаданных
+YGC - номер малой сборки мусора
+FGC - номер большой сборки мусора
+
+c:\Program Files\Java\jdk-16.0.2\bin>jstat -gc -t 20828 10s 50
+Timestamp           S0C         S1C         S0U         S1U          EC           EU           OC           OU          MC         MU       CCSC      CCSU     YGC     YGCT     FGC    FGCT     CGC    CGCT       GCT
+           12.9      1664.0      1664.0         0.0         0.0      13696.0       3835.7      34176.0          0.0        0.0        0.0       0.0       0.0      0     0.000     0     0.000     -         -     0.000
+           22.9      1664.0      1664.0         0.0         0.0      13696.0       3835.7      34176.0          0.0        0.0        0.0       0.0       0.0      0     0.000     0     0.000     -         -     0.000
+           32.9      1664.0      1664.0         0.0         0.0      13696.0       9304.7      34176.0          0.0        0.0        0.0       0.0       0.0      0     0.000     0     0.000     -         -     0.000
+           43.0      1664.0      1664.0         0.0         0.0      13696.0      13400.7      34176.0          0.0        0.0        0.0       0.0       0.0      0     0.000     0     0.000     -         -     0.000
+           52.9      1664.0      1664.0         0.0      1664.0      13696.0       4350.2      34176.0       8563.8     1728.0     1586.2     192.0     136.3      1     0.008     0     0.000     -         -     0.008
+           63.0      1664.0      1664.0         0.0      1664.0      13696.0       8446.3      34176.0       8563.8     1728.0     1586.2     192.0     136.3      1     0.008     0     0.000     -         -     0.008
+           73.0      1664.0      1664.0         0.0      1664.0      13696.0      12542.3      34176.0       8563.8     1728.0     1586.2     192.0     136.3      1     0.008     0     0.000     -         -     0.008
+           83.0      1664.0      1664.0         0.6         0.0      13696.0       4356.9      34176.0      22514.4     1728.0     1592.3     192.0     136.3      2     0.017     0     0.000     -         -     0.017
+           93.0      1664.0      1664.0         0.6         0.0      13696.0       4356.9      34176.0      22514.4     1728.0     1592.3     192.0     136.3      2     0.017     0     0.000     -         -     0.017
+          103.0      1664.0      1664.0         0.6         0.0      13696.0       4493.9      34176.0      22514.4     1728.0     1592.3     192.0     136.3      2     0.017     0     0.000     -         -     0.017
+          113.0      1664.0      1664.0         0.6         0.0      13696.0       8589.9      34176.0      22514.4     1728.0     1592.3     192.0     136.3      2     0.017     0     0.000     -         -     0.017
+          123.0      1664.0      1664.0         0.6         0.0      13696.0       8589.9      34176.0      22514.4     1728.0     1592.3     192.0     136.3      2     0.017     0     0.000     -         -     0.017
+          133.0      1664.0      1664.0         0.6         0.0      13696.0      12685.9      34176.0      22514.4     1728.0     1592.3     192.0     136.3      2     0.017     0     0.000     -         -     0.017
+          143.0      1664.0      1664.0         0.0         0.0      13696.0       4358.6      34176.0      26611.6     1728.0     1575.0     192.0     128.8      3     0.017     1     0.008     -         -     0.024
+          153.0      1664.0      1664.0         0.0         0.0      13696.0       4358.6      34176.0      26611.6     1728.0     1575.0     192.0     128.8      3     0.017     1     0.008     -         -     0.024
+          163.0      1664.0      1664.0         0.0         0.0      13696.0       8454.6      34176.0      26611.6     1728.0     1575.0     192.0     128.8      3     0.017     1     0.008     -         -     0.024
+          173.0      1664.0      1664.0         0.0         0.0      13696.0      12550.6      34176.0      26611.6     1728.0     1575.0     192.0     128.8      3     0.017     1     0.008     -         -     0.024
+          183.1      1664.0      1664.0         0.0         0.0      13696.0      12553.0      34176.0      30708.2     1728.0     1577.3     192.0     128.8      4     0.017     2     0.015     -         -     0.032
+          193.0      1664.0      1664.0         0.0         0.0      13696.0      12553.0      34176.0      30708.2     1728.0     1577.3     192.0     128.8      4     0.017     2     0.015     -         -     0.032
+
+На выводе виден момент первого срабатывания minorGC. Timestamp 52.9
+Далее в было ещё два minorGC в 83.0 и 143.0
+В момент третьей малой уборки, память Old заполнилась (OU параметр) и сработала majorGC
+В момент последней 4-й minorGC срабатывает также majorGC, так как места в Old также нет.
+После неудачной попытки полной сборки мусора в лог выдалось сообщение OutOfMemoryError. Ниже лог показывающий данное событие.
+
+=== Create a new Item ===
+Enter name:
+test12
+[193.753s][info][gc,start       ] GC(6) Pause Full (Allocation Failure)
+[193.753s][info][gc,phases,start] GC(6) Phase 1: Mark live objects
+[193.755s][info][gc,phases      ] GC(6) Phase 1: Mark live objects 2.407ms
+[193.755s][info][gc,phases,start] GC(6) Phase 2: Compute new object addresses
+[193.756s][info][gc,phases      ] GC(6) Phase 2: Compute new object addresses 0.614ms
+[193.756s][info][gc,phases,start] GC(6) Phase 3: Adjust pointers
+[193.757s][info][gc,phases      ] GC(6) Phase 3: Adjust pointers 1.145ms
+[193.757s][info][gc,phases,start] GC(6) Phase 4: Move objects
+[193.757s][info][gc,phases      ] GC(6) Phase 4: Move objects 0.007ms
+[193.757s][info][gc,heap        ] GC(6) DefNew: 12552K(15360K)->12288K(15360K) Eden: 12552K(13696K)->12288K(13696K) From: 0K(1664K)->0K(1664K)
+[193.757s][info][gc,heap        ] GC(6) Tenured: 30708K(34176K)->30708K(34176K)
+[193.757s][info][gc,metaspace   ] GC(6) Metaspace: 1579K(1728K)->1579K(1728K) NonClass: 1450K(1536K)->1450K(1536K) Class: 128K(192K)->128K(192K)
+[193.757s][info][gc             ] GC(6) Pause Full (Allocation Failure) 42M->41M(48M) 4.375ms
+[193.757s][info][gc,cpu         ] GC(6) User=0.00s Sys=0.00s Real=0.01s
+[193.757s][info][gc,start       ] GC(7) Pause Full (Allocation Failure)
+[193.757s][info][gc,phases,start] GC(7) Phase 1: Mark live objects
+[193.759s][info][gc,phases      ] GC(7) Phase 1: Mark live objects 1.837ms
+[193.759s][info][gc,phases,start] GC(7) Phase 2: Compute new object addresses
+[193.760s][info][gc,phases      ] GC(7) Phase 2: Compute new object addresses 0.518ms
+[193.760s][info][gc,phases,start] GC(7) Phase 3: Adjust pointers
+[193.761s][info][gc,phases      ] GC(7) Phase 3: Adjust pointers 1.099ms
+[193.761s][info][gc,phases,start] GC(7) Phase 4: Move objects
+[193.764s][info][gc,phases      ] GC(7) Phase 4: Move objects 2.924ms
+[193.764s][info][gc,heap        ] GC(7) DefNew: 12288K(15360K)->12288K(15360K) Eden: 12288K(13696K)->12288K(13696K) From: 0K(1664K)->0K(1664K)
+[193.764s][info][gc,heap        ] GC(7) Tenured: 30708K(34176K)->30575K(34176K)
+[193.764s][info][gc,metaspace   ] GC(7) Metaspace: 1579K(1728K)->1579K(1728K) NonClass: 1450K(1536K)->1450K(1536K) Class: 128K(192K)->128K(192K)
+[193.764s][info][gc             ] GC(7) Pause Full (Allocation Failure) 41M->41M(48M) 6.572ms
+[193.764s][info][gc,cpu         ] GC(7) User=0.00s Sys=0.00s Real=0.01s
+[193.765s][info][gc,heap,exit   ] Heap
+[193.765s][info][gc,heap,exit   ]  def new generation   total 15360K, used 12629K [0x00000000fce00000, 0x00000000fdea0000, 0x00000000fdea0000)
+[193.765s][info][gc,heap,exit   ]   eden space 13696K,  92% used [0x00000000fce00000, 0x00000000fda55540, 0x00000000fdb60000)
+[193.765s][info][gc,heap,exit   ]   from space 1664K,   0% used [0x00000000fdb60000, 0x00000000fdb60000, 0x00000000fdd00000)
+[193.765s][info][gc,heap,exit   ]   to   space 1664K,   0% used [0x00000000fdd00000, 0x00000000fdd00000, 0x00000000fdea0000)
+[193.765s][info][gc,heap,exit   ]  tenured generation   total 34176K, used 30575K [0x00000000fdea0000, 0x0000000100000000, 0x0000000100000000)
+[193.765s][info][gc,heap,exit   ]    the space 34176K,  89% used [0x00000000fdea0000, 0x00000000ffc7bcd8, 0x00000000ffc7be00, 0x0000000100000000)
+[193.765s][info][gc,heap,exit   ]  Metaspace       used 1588K, committed 1728K, reserved 1056768K
+[193.765s][info][gc,heap,exit   ]   class space    used 129K, committed 192K, reserved 1048576K
+Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+	at ru.job4j.tracker.Item.<init>(Item.java:13)
+	at ru.job4j.tracker.CreateAction.execute(CreateAction.java:19)
+	at ru.job4j.tracker.StartUI.init(StartUI.java:25)
+	at ru.job4j.tracker.StartUI.main(StartUI.java:50)

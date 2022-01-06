@@ -37,6 +37,18 @@ public class StartUI {
         Output output = new ConsoleOutput();
         Input input = new ValidateInput(output, new ConsoleInput());
 
+        MemTracker tracker = new MemTracker();
+        List<UserAction> actions = List.of(
+                new CreateAction(output),
+                new ShowAllAction(output),
+                new ReplaceAction(output),
+                new DeleteAction(output),
+                new FindByIdAction(output),
+                new FindByNameAction(output),
+                new ExitAction(output)
+        );
+        new StartUI(output).init(input, tracker, actions);
+        /* For SQL Store
         try (SqlTracker tracker = new SqlTracker()) {
             tracker.init();
             List<UserAction> actions = List.of(
@@ -52,5 +64,6 @@ public class StartUI {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        */
     }
 }
