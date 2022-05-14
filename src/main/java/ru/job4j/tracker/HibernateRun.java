@@ -6,6 +6,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class HibernateRun {
@@ -22,6 +23,10 @@ public class HibernateRun {
             Item rsl = findById(item.getId(), sf);
             System.out.println(rsl);
             delete(rsl.getId(), sf);
+            create(new Item("Scheme generate", "Generate scheme with Hibernate",
+                    new Timestamp(1652514909000L)), sf);
+            create(new Item("New item", "Generate new Item with Hibernate",
+                    new Timestamp(1652428509000L)), sf);
             List<Item> list = findAll(sf);
             for (Item it : list) {
                 System.out.println(it);
