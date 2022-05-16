@@ -1,7 +1,5 @@
 package ru.job4j.tracker;
 
-import ru.job4j.tracker.store.SqlTracker;
-
 import java.util.List;
 
 public class StartUI {
@@ -37,6 +35,7 @@ public class StartUI {
         Output output = new ConsoleOutput();
         Input input = new ValidateInput(output, new ConsoleInput());
 
+        /* For Mem Store
         MemTracker tracker = new MemTracker();
         List<UserAction> actions = List.of(
                 new CreateAction(output),
@@ -48,6 +47,7 @@ public class StartUI {
                 new ExitAction(output)
         );
         new StartUI(output).init(input, tracker, actions);
+        */
         /* For SQL Store
         try (SqlTracker tracker = new SqlTracker()) {
             tracker.init();
@@ -65,5 +65,20 @@ public class StartUI {
             e.printStackTrace();
         }
         */
+        /* For HBM Store */
+        try (HbmTracker tracker = new HbmTracker()) {
+            List<UserAction> actions = List.of(
+                    new CreateAction(output),
+                    new ShowAllAction(output),
+                    new ReplaceAction(output),
+                    new DeleteAction(output),
+                    new FindByIdAction(output),
+                    new FindByNameAction(output),
+                    new ExitAction(output)
+            );
+            new StartUI(output).init(input, tracker, actions);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
