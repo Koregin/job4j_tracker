@@ -2,6 +2,7 @@ package ru.job4j.tracker.store;
 
 import ru.job4j.tracker.Item;
 import ru.job4j.tracker.Store;
+import ru.job4j.tracker.react.Observe;
 
 import java.io.InputStream;
 import java.sql.*;
@@ -93,13 +94,17 @@ public class SqlTracker implements Store, AutoCloseable {
         try (PreparedStatement ps = cn.prepareStatement("select * from items")) {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    result.add(createItem(rs));
+                    getByReact(result::add, createItem(rs));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
+    }
+
+    private void getByReact(Observe<Item> observe, Item item) {
+        observe.receive(item);
     }
 
     @Override
